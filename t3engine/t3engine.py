@@ -8,10 +8,19 @@ from t3engine import pub_mixin, pub
 
 class state():
     """The state class holds the current state of a TicTacToe game.
-    A new state object will have an empty board. The current turn will
-    be set to X."""
+    """
 
     class dir(Enum):
+        """ An enumeration used to describe how the game ended.
+
+        When the game has ended, this enumeration helps describe
+        the condition that ended the game. ROW, COL, DIAG, and
+        ANTI_DIAG are used when a player has won to indicate the
+        direction of their victory. When combined with the
+        coordinates of the last move, it identifies where the
+        three in a row condition was met. The DRAW value is used
+        when the last move caused a draw.
+        """
         ROW = 0
         COL = 1
         DIAG = 2
@@ -32,6 +41,20 @@ class state():
         self.num_turns = 0
 
     def _create_board(self, s):
+        """ Testing utility function used to initialize a board.
+
+        The _create_board function takes a string representing the
+        desired board state and sets up the board to match that state.
+        For example,
+
+        g.state._create_board("xox"
+                        "xo "
+                        " o "
+                        )
+
+        Args:
+            s: a string representation of the desired board state
+        """
         token = {
             '0': 0,
             'o': 0,
@@ -53,6 +76,11 @@ class state():
                 self.num_turns += 1
 
     def _print_board(self):
+        """ A utility function for debugging that prints the board state.
+
+        This function renders the current board state to stdout. It is
+        a debugging tool.
+        """
         ui = {0: 'X', 1: 'O', None: ' '}
         print('---')
         for i in range(0, 9):
@@ -97,7 +125,7 @@ class game(pub_mixin):
 
     def play(self):
         while not self.state.game_over:
-            self.players[self.state.turn].play()
+            self.players[self.state.turn].play(self.state)
 
     def _declare_victory(self, player, x, y, dir):
         self.state.game_over = True

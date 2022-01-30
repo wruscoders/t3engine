@@ -145,11 +145,17 @@ class player_random():
         self.game = None
         self.name = name
 
-    def play(self):
+    def play(self, state):
+        """Play a random legal move.
+        
+        We get passed the current state, but since we're just playing
+        random moves, we only use it to make sure we're not playing
+        to a spot that's already taken.
+        """
         while True:
             x = randint(0, 2)
             y = randint(0, 2)
-            if self.game.state.board[x][y] is None:
+            if state.board[x][y] is None:
                 self.game.move(x, y)
                 return
 
@@ -182,13 +188,9 @@ def test_pub_state(g):
     g = game()
     s = sub(g)
 
-    print("Joining")
     g.join(player_test('albert'))
-    print("Joined")
     g.join(player_test('barbara'))
-    print("Moving")
     g.players[0].game.move(1, 1)
-    print("Moved")
 
     assert s.events[0] == 'albert'
     assert s.events[1] == 'barbara'
