@@ -7,6 +7,9 @@ from t3engine import pub_mixin, pub
 
 
 class state():
+    """The state class holds the current state of a TicTacToe game.
+    A new state object will have an empty board. The current turn will
+    be set to X."""
 
     class dir(Enum):
         ROW = 0
