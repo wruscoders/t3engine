@@ -15,6 +15,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="t3engine" href="modules.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -38,24 +39,51 @@
 </section>
 <section id="module-t3engine.publisher">
 <span id="t3engine-publisher-module"></span><h2>t3engine.publisher module<a class="headerlink" href="#module-t3engine.publisher" title="Permalink to this headline">¶</a></h2>
+<p>Implements the observer pattern as a mixin using decoraators.</p>
+<p>A class may inherit from pub_mixin to allow selected methods to
+be observed by external subscribers. The inheriting class may
+wrap functions using the &#64;pub decorator to provide subscribers
+notification when those methods are called.</p>
+<p>Subscribers should pass an object that implements methods with the
+same name as the decorated methods of the class to which they are
+subscribing. Whenever the decorated functions are called, the
+observers corresponding method will be called with the same arguments.
+The provider may send additional state information with notifications.
+Consult the documentation for the subscribed class to see what
+additional information is provided, if any.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="t3engine.publisher.pub">
 <span class="sig-prename descclassname"><span class="pre">t3engine.publisher.</span></span><span class="sig-name descname"><span class="pre">pub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3engine.publisher.pub" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Decorator wraps functions that should provide notifications
+to observers when executed.</p>
+<p>Returns: A wrapped version of the decorated function.</p>
+</dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="t3engine.publisher.pub_mixin">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3engine.publisher.</span></span><span class="sig-name descname"><span class="pre">pub_mixin</span></span><a class="headerlink" href="#t3engine.publisher.pub_mixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An inheritable mixin that provides hooks for the observer pattern.</p>
+<p>Classes wishing to be observable can inherit from this mixin to
+implement the observer pattern. The class inheriting this mixin
+must call super().__init__() to be propertly initialized.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="t3engine.publisher.pub_mixin.sub">
 <span class="sig-name descname"><span class="pre">sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3engine.publisher.pub_mixin.sub" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Subscribe an observer to receive notifications.
+:param observer: An object that has implemented functions whose
+:param signatures match the &#64;pub decorated functions it wishes:
+:param to observe. After subscribing:
+:param the corresponding:
+:param methods of the observer will be called each time the:
+:param methods are called on the provider.:</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="t3engine.publisher.pub_mixin.unsub">
 <span class="sig-name descname"><span class="pre">unsub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3engine.publisher.pub_mixin.unsub" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Unsubscribe an observer from receiving notifications.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -63,6 +91,9 @@
 <dt class="sig sig-object py" id="t3engine.publisher.publisher">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3engine.publisher.</span></span><span class="sig-name descname"><span class="pre">publisher</span></span><a class="headerlink" href="#t3engine.publisher.publisher" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An instance is added to an inherited object.</p>
+<p>This class is added to the inherited class as the ‘publisher’
+attribute. It implements the observer pattern.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="t3engine.publisher.publisher.pub">
 <span class="sig-name descname"><span class="pre">pub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3engine.publisher.publisher.pub" title="Permalink to this definition">¶</a></dt>
@@ -113,14 +144,19 @@
 <dt class="sig sig-object py" id="t3engine.t3engine.state">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">t3engine.t3engine.</span></span><span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#t3engine.t3engine.state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The state class holds the current state of a TicTacToe game.
-A new state object will have an empty board. The current turn will
-be set to X.</p>
+<p>The state class holds the current state of a TicTacToe game.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="t3engine.t3engine.state.dir">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#t3engine.t3engine.state.dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
+<p>An enumeration used to describe how the game ended.</p>
+<p>When the game has ended, this enumeration helps describe
+the condition that ended the game. ROW, COL, DIAG, and
+ANTI_DIAG are used when a player has won to indicate the
+direction of their victory. When combined with the
+coordinates of the last move, it identifies where the
+three in a row condition was met. The DRAW value is used
+when the last move caused a draw.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="t3engine.t3engine.state.dir.ANTI_DIAG">
 <span class="sig-name descname"><span class="pre">ANTI_DIAG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#t3engine.t3engine.state.dir.ANTI_DIAG" title="Permalink to this definition">¶</a></dt>
@@ -173,11 +209,21 @@ be set to X.</p>
 
 
 <h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">t3engine</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">t3engine package</a></li>
+</ul>
+</li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">t3engine</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">t3engine</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
